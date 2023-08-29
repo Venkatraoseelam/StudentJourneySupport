@@ -9,9 +9,7 @@ app = Flask(__name__)
 
 #conn = sqlite3.connect('database/studentsupport.db',check_same_thread=False)
 postgres_url = "postgres://pnduntbosbilpu:b4d20badfdbb754e0484fb6f2c988b731b000927ccc8931c37597eeab921e8df@ec2-34-247-94-62.eu-west-1.compute.amazonaws.com:5432/d75hjm2ojrfqi7"
-
 url_parts = urlparse(postgres_url)
-
 conn = psycopg2.connect(
     host=url_parts.hostname,
     port=url_parts.port,
