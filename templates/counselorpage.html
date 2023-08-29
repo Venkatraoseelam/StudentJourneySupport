@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+
+<style type='text/css'>
+    * {
+        padding: 0;
+        margin: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+
+    body {
+       background-size: cover;
+        font-family: sans-serif;
+        margin-top: 40px;
+        height: 100vh;
+        padding: 0;
+        margin: 0;
+    }
+
+    table {
+        border: 1px;
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 86%;
+        margin: auto;
+    }
+
+    td,
+    th {
+        border: 1px solid black !important;
+        padding: 5px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+</style>
+
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="/static/bootstrap.css" />
+        <link href="/static/style.css" rel="stylesheet" /> 
+        <link href="/static/responsive.css" rel="stylesheet" />   
+    <title>Student Wellness Support</title>
+</head>
+
+<body>
+    <header class="header_section">
+        <div class="container-fluid">
+          <nav class="navbar navbar-expand-lg custom_nav-container ">
+            <a class="navbar-brand" href="/">
+              <img style="height:50px;" src="/static/logo.png"/>
+              <span style="margin-left:5px;">
+                Student Wellness Support
+              </span>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+  
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <div class="d-flex ml-auto flex-column flex-lg-row align-items-center">
+                <ul class="navbar-nav">
+                  <li class="nav-item  active">
+                    <a class="nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
+                  </li>
+                  <li class="nav-item">
+                   <a class="nav-link" href="/"> Logout <span class="sr-only">(current)</span></a>
+                  </li>
+                 
+                </ul>
+                <div class="user_option">
+                  <form class="form-inline my-2 my-lg-0 ml-0 ml-lg-4 mb-3 mb-lg-0">
+                    <button class="btn  my-2 my-sm-0 nav_search-btn" type="submit"></button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </nav>
+        </div>
+      </header>
+	  
+    
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="/">Student Wellness Support</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <h2 style="color:black;font-size:24px;;margin-top: 10px;"> Welcome {{docname}},</h2>
+                </li>
+                <li class="nav-item">&nbsp;&nbsp;&nbsp;</li>
+                <li class="nav-item btn-box" >
+                    
+                    <a class="nav-link active" aria-current="page"
+                        style="font-size: 20px;background-color: rgb(128 128 128 / 33%);border-radius: 15px;"
+                        href="/updatecounselor?docid={{docid}}">Update Profile</a>
+                </li>
+                
+            </ul>
+        </div>
+        </div>
+      </nav>
+    <h1 class="text-center" style="color:black;font-size:24px;">Counselor Dashboard</h1>
+    <div class="text-center mt-5">
+       
+
+        <h2 style="margin-top: 50px;color: black;font-size:24px;float:left;margin-left:135px;">My Confirmed Appointments</h2>
+        <table>
+            <tr style="background-color: white;">
+                <td><b>Student Name</b></td>
+                <td><b>Student Number</b></td>
+                <td><b>Appointment Date</b></td>
+            </tr>
+
+            {% for i in range(l2) %}
+            <tr style="background-color: white;">
+                <td>{{fix_appointment_for_this_doctor[i][1]}}</td>
+                <td>{{fix_appointment_for_this_doctor[i][2]}}</td>
+                <td>{{fix_appointment_for_this_doctor[i][3]}}</td>
+            </tr>
+            {%endfor%}
+
+        </table>
+
+        <h2 style="margin-top: 50px;color: black;font-size:24px;float:left;margin-left:135px;">Pending Appointment Requests</h2>
+        <table>
+            <tr style="background-color: white;">
+                <td><b>Student Name</b></td>
+                <td><b>Student Number</b></td>
+                <td><b>Appointment Date</b></td>
+                <td><b>Approve/Delete</b></td>
+            </tr>
+
+            {% for i in range(l1) %}
+            <tr style="background-color: white;">
+                <td>{{appointment_requests_for_this_doctor[i][1]}}</td>
+                <td>{{appointment_requests_for_this_doctor[i][2]}}</td>
+                <td>{{appointment_requests_for_this_doctor[i][3]}}</td>
+                <td><a href="/doctorapproveappointment?docid={{appointment_requests_for_this_doctor[i][0]}}&patname={{appointment_requests_for_this_doctor[i][1]}}&patnum={{appointment_requests_for_this_doctor[i][2]}}&appdate={{appointment_requests_for_this_doctor[i][3]}}"><button type='submit' class='btn btn-success'>Approve</button></a>
+                    <a href="/doctordeleteappointment?docid={{appointment_requests_for_this_doctor[i][0]}}&patname={{appointment_requests_for_this_doctor[i][1]}}&patnum={{appointment_requests_for_this_doctor[i][2]}}&appdate={{appointment_requests_for_this_doctor[i][3]}}"><button type='submit' class='btn btn-danger'>Delete</button></a></td>
+            </tr>
+            {%endfor%}
+
+        </table>
+        
+    </div>
+    <br/><br/><br/><br/><br/><br/><br/><br/>
+    
+    <section class="info_section layout_padding">
+        <div class="container">
+      
+            <div class="col-md-3" >
+              <div class="info_contact">
+                <div class="info_logo">
+                  <a href="/">
+                    <span>
+                      Student Wellness Support
+                    </span>
+                  </a>
+                </div>
+                
+                <div>
+                  <div class="img-box">
+                    <img src="/static/contact.png" width="18px" alt="" />
+                  </div>
+                  <p style="font-size:24px;">
+                   
+                      Contact Us
+                    
+                  </p>
+                </div>
+                <div>
+                  <div class="img-box">
+                    <img src="/static/phone.png" width="18px" alt="" />
+                  </div>
+                  <p>
+                    +353 1234567
+                  </p>
+                </div>
+                <div>
+                  <div class="img-box">
+                    <img src="/static/mail.png" width="18px" alt="" />
+                  </div>
+                  <p>
+                    ask@studentwellnesssupport.com
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="info_info">
+                <h5>
+                 
+                </h5>
+               
+              </div>
+            </div>
+    
+            <div class="col-md-3">
+              <div class="info_links">
+                <h5>
+                 
+                </h5>
+               
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="info_form ">
+                <h5>
+                  
+                </h5>
+               
+              </div>
+            </div>
+         
+        </div>
+      </section>
+      <script type="text/javascript" src="/static/jquery-3.4.1.min.js"></script>
+      <script type="text/javascript" src="/static/bootstrap.js"></script>
+</body>
+
+</html>
