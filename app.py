@@ -25,9 +25,9 @@ c.execute('''CREATE TABLE IF NOT EXISTS doctors(
             last_name text,
             dob date,
             phone_number integer,
-            address integer text,
-            doc_id integer text,
-            password integer text,
+            address text,
+            doc_id integer,
+            password text,
             speciality text,
             status integer
             )''')
@@ -37,27 +37,27 @@ c.execute('''CREATE TABLE IF NOT EXISTS patients(
             last_name text,
             dob date,
             phone_number integer,
-            password integer text,
-            address integer text,
+            password text,
+            address text,
             status integer
             )''')
 
 c.execute('''CREATE TABLE IF NOT EXISTS superusercreds(
-            username integer text,
-            password integer text
+            username text,
+            password text
             )''')
 
 c.execute('''CREATE TABLE IF NOT EXISTS doctorappointmentrequests(
-            docid integer text,
-            patientname integer text,
-            patientnum integer text,
+            docid integer,
+            patientname text,
+            patientnum integer,
             appointmentdate date
             )''')
 
 c.execute('''CREATE TABLE IF NOT EXISTS doctorappointments(
-            docid integer text,
-            patientname integer text,
-            patientnum integer text,
+            docid integer,
+            patientname text,
+            patientnum integer,
             appointmentdate date
             )''')
 
