@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Users\shast\OneDrive\Desktop\doctor-patient appointment system\doctor-patient appointment system\env"
+VIRTUAL_ENV="C:\Users\shast\OneDrive\Documents\GitHub\StudentJourneySupport\env"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
