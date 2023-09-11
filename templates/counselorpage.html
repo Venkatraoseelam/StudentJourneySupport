@@ -129,9 +129,9 @@
 
             {% for i in range(l2) %}
             <tr style="background-color: white;">
-                <td>{{fix_appointment_for_this_doctor[i][1]}}</td>
-                <td>{{fix_appointment_for_this_doctor[i][2]}}</td>
-                <td>{{fix_appointment_for_this_doctor[i][3]}}</td>
+                <td>{{fix_appointment_for_this_counsellor[i][1]}}</td>
+                <td>{{fix_appointment_for_this_counsellor[i][2]}}</td>
+                <td>{{fix_appointment_for_this_counsellor[i][3]}}</td>
             </tr>
             {%endfor%}
 
@@ -148,11 +148,11 @@
 
             {% for i in range(l1) %}
             <tr style="background-color: white;">
-                <td>{{appointment_requests_for_this_doctor[i][1]}}</td>
-                <td>{{appointment_requests_for_this_doctor[i][2]}}</td>
-                <td>{{appointment_requests_for_this_doctor[i][3]}}</td>
-                <td><a href="/doctorapproveappointment?docid={{appointment_requests_for_this_doctor[i][0]}}&patname={{appointment_requests_for_this_doctor[i][1]}}&patnum={{appointment_requests_for_this_doctor[i][2]}}&appdate={{appointment_requests_for_this_doctor[i][3]}}"><button type='submit' class='btn btn-success'>Approve</button></a>
-                    <a href="/doctordeleteappointment?docid={{appointment_requests_for_this_doctor[i][0]}}&patname={{appointment_requests_for_this_doctor[i][1]}}&patnum={{appointment_requests_for_this_doctor[i][2]}}&appdate={{appointment_requests_for_this_doctor[i][3]}}"><button type='submit' class='btn btn-danger'>Delete</button></a></td>
+                <td>{{appointment_requests_for_this_counsellor[i][1]}}</td>
+                <td>{{appointment_requests_for_this_counsellor[i][2]}}</td>
+                <td>{{appointment_requests_for_this_counsellor[i][3]}}</td>
+                <td><a href="/counsellorapproveappointment?docid={{appointment_requests_for_this_counsellor[i][0]}}&patname={{appointment_requests_for_this_counsellor[i][1]}}&patnum={{appointment_requests_for_this_counsellor[i][2]}}&appdate={{appointment_requests_for_this_counsellor[i][3]}}"><button type='submit' class='btn btn-success'>Approve</button></a>
+                    <a href="/counsellordeleteappointment?docid={{appointment_requests_for_this_counsellor[i][0]}}&patname={{appointment_requests_for_this_counsellor[i][1]}}&patnum={{appointment_requests_for_this_counsellor[i][2]}}&appdate={{appointment_requests_for_this_counsellor[i][3]}}"><button type='submit' class='btn btn-danger'>Delete</button></a></td>
             </tr>
             {%endfor%}
 

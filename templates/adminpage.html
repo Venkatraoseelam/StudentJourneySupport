@@ -107,13 +107,13 @@
             {% if l1>0 %}
             {% for i in range(l1)%}
             <tr style="background-color: white;">
-                <td>{{patient_reg_requests[i][0]}}</td>
-                <td>{{patient_reg_requests[i][1]}}</td>
-                <td>{{patient_reg_requests[i][2]}}</td>
-                <td>{{patient_reg_requests[i][3]}}</td>
-                <td>{{patient_reg_requests[i][5]}}</td>
-                <td><a href="/approvepatient?patnum={{patient_reg_requests[i][3]}}"><button type='submit' class='btn btn-success'>Approve</button></a>
-                    <a href="/deletepatientrequest?patnum={{patient_reg_requests[i][3]}}"><button type='submit' class='btn btn-danger'>Delete</button></a></td>
+                <td>{{student_reg_requests[i][0]}}</td>
+                <td>{{student_reg_requests[i][1]}}</td>
+                <td>{{student_reg_requests[i][2]}}</td>
+                <td>{{student_reg_requests[i][3]}}</td>
+                <td>{{student_reg_requests[i][5]}}</td>
+                <td><a href="/approvestudent?patnum={{student_reg_requests[i][3]}}"><button type='submit' class='btn btn-success'>Approve</button></a>
+                    <a href="/deletestudentrequest?patnum={{student_reg_requests[i][3]}}"><button type='submit' class='btn btn-danger'>Delete</button></a></td>
             </tr>
             {%endfor%}
             {%endif%}
@@ -128,22 +128,22 @@
                 <td>Date of Birth</td>
                 <td>Phone</td>
                 <td>Address</td>
-                <td>Doctor ID</td>
+                <td>Counsellor ID</td>
                 <td>Speciality</td>
                 <td>Approve/Delete</td>
             </tr>
             {% if l2>0 %}
             {% for i in range(l2)%}
             <tr style="background-color: white;">
-                <td>{{doctor_reg_requests[i][0]}}</td>
-                <td>{{doctor_reg_requests[i][1]}}</td>
-                <td>{{doctor_reg_requests[i][2]}}</td>
-                <td>{{doctor_reg_requests[i][3]}}</td>
-                <td>{{doctor_reg_requests[i][4]}}</td>
-                <td>{{doctor_reg_requests[i][5]}}</td>
-                <td>{{doctor_reg_requests[i][7]}}</td>
-                <td><a href="/approvedoctor?docid={{doctor_reg_requests[i][5]}}"><button type='submit' class='btn btn-success'>Approve</button></a>
-                    <a href="/deletedoctorrequest?docid={{doctor_reg_requests[i][5]}}"><button type='submit' class='btn btn-danger'>Delete</button></a></td>
+                <td>{{counsellor_reg_requests[i][0]}}</td>
+                <td>{{counsellor_reg_requests[i][1]}}</td>
+                <td>{{counsellor_reg_requests[i][2]}}</td>
+                <td>{{counsellor_reg_requests[i][3]}}</td>
+                <td>{{counsellor_reg_requests[i][4]}}</td>
+                <td>{{counsellor_reg_requests[i][5]}}</td>
+                <td>{{counsellor_reg_requests[i][7]}}</td>
+                <td><a href="/approvecounsellor?docid={{counsellor_reg_requests[i][5]}}"><button type='submit' class='btn btn-success'>Approve</button></a>
+                    <a href="/deletecounsellorrequest?docid={{counsellor_reg_requests[i][5]}}"><button type='submit' class='btn btn-danger'>Delete</button></a></td>
             </tr>
             {%endfor%}
             {%endif%}
@@ -164,12 +164,12 @@
             {% if l3>0 %}
             {% for i in range(l3)%}
             <tr style="background-color: white;">
-                <td>{{registered_patients[i][0]}}</td>
-                <td>{{registered_patients[i][1]}}</td>
-                <td>{{registered_patients[i][2]}}</td>
-                <td>{{registered_patients[i][3]}}</td>
-                <td>{{registered_patients[i][5]}}</td>
-                <td><a href="/deletepatient?patnum={{registered_patients[i][3]}}"><button type='submit' class='btn btn-danger'>Delete</button></a></td>
+                <td>{{registered_students[i][0]}}</td>
+                <td>{{registered_students[i][1]}}</td>
+                <td>{{registered_students[i][2]}}</td>
+                <td>{{registered_students[i][3]}}</td>
+                <td>{{registered_students[i][5]}}</td>
+                <td><a href="/deletestudent?patnum={{registered_students[i][3]}}"><button type='submit' class='btn btn-danger'>Delete</button></a></td>
             </tr>
             {%endfor%}
             {%endif%}
@@ -185,21 +185,21 @@
                 <td>Date of Birth</td>
                 <td>Phone</td>
                 <td>Address</td>
-                <td>Doctor ID</td>
+                <td>Counsellor ID</td>
                 <td>Speciality</td>
                 <td>Delete</td>
             </tr>
             {% if l4>0 %}
             {% for i in range(l4)%}
             <tr style="background-color: white;">
-                <td>{{registered_doctors[i][0]}}</td>
-                <td>{{registered_doctors[i][1]}}</td>
-                <td>{{registered_doctors[i][2]}}</td>
-                <td>{{registered_doctors[i][3]}}</td>
-                <td>{{registered_doctors[i][4]}}</td>
-                <td>{{registered_doctors[i][5]}}</td>
-                <td>{{registered_doctors[i][7]}}</td>
-                <td><a href="/deletedoctor?docid={{registered_doctors[i][5]}}"><button type='submit' class='btn btn-danger'>Delete</button></a></td>
+                <td>{{registered_counsellors[i][0]}}</td>
+                <td>{{registered_counsellors[i][1]}}</td>
+                <td>{{registered_counsellors[i][2]}}</td>
+                <td>{{registered_counsellors[i][3]}}</td>
+                <td>{{registered_counsellors[i][4]}}</td>
+                <td>{{registered_counsellors[i][5]}}</td>
+                <td>{{registered_counsellors[i][7]}}</td>
+                <td><a href="/deletecounsellor?docid={{registered_counsellors[i][5]}}"><button type='submit' class='btn btn-danger'>Delete</button></a></td>
             </tr>
             {%endfor%}
             {%endif%}

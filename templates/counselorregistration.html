@@ -104,7 +104,7 @@
     <h1 class="text-center" style="color:black;font-size:24px;">Counselor Registration</h1>
     <div class="text-center">
         <form style="color:white;background-color:rgb(0,0,0,0.7);margin: auto;width: fit-content;padding: 30px;"
-            action='/adddoctor' method="POST" enctype="multipart/form-data">
+            action='/addcounsellor' method="POST" enctype="multipart/form-data">
 
             <div class="row">
                 <div class="col">
@@ -168,9 +168,16 @@
         </form>
 
         {%if mess%}
-        <p>{{mess}}</p>
+        <div id="myAlert" class="alert alert-danger text-center" style="margin: 50px;" role="alert">
+          {{mess}}
+        </div>
         {%endif%}
     </div>
+    <script>
+      setTimeout(function() {
+        document.getElementById('myAlert').style.display = 'none';
+      }, 5000);
+    </script>
     <br/><br/><br/>
     
     <section class="info_section layout_padding">

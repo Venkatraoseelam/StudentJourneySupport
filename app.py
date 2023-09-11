@@ -20,7 +20,7 @@ conn = psycopg2.connect(
 
 c = conn.cursor()
 
-c.execute('''CREATE TABLE IF NOT EXISTS doctors(
+c.execute('''CREATE TABLE IF NOT EXISTS counsellors(
             first_name text,
             last_name text,
             dob date,
@@ -32,7 +32,7 @@ c.execute('''CREATE TABLE IF NOT EXISTS doctors(
             status integer
             )''')
 
-c.execute('''CREATE TABLE IF NOT EXISTS patients(
+c.execute('''CREATE TABLE IF NOT EXISTS students(
             first_name text,
             last_name text,
             dob date,
@@ -47,17 +47,17 @@ c.execute('''CREATE TABLE IF NOT EXISTS superusercreds(
             password text
             )''')
 
-c.execute('''CREATE TABLE IF NOT EXISTS doctorappointmentrequests(
+c.execute('''CREATE TABLE IF NOT EXISTS counsellorappointmentrequests(
             docid integer,
-            patientname text,
-            patientnum integer,
+            studentname text,
+            studentnum integer,
             appointmentdate date
             )''')
 
-c.execute('''CREATE TABLE IF NOT EXISTS doctorappointments(
+c.execute('''CREATE TABLE IF NOT EXISTS counsellorappointments(
             docid integer,
-            patientname text,
-            patientnum integer,
+            studentname text,
+            studentnum integer,
             appointmentdate date
             )''')
 
@@ -98,31 +98,31 @@ def checkphnlen(x):
     return len(x)==10
 
 def retalldocsandapps():
-    c.execute(f"SELECT * FROM doctorappointments")
+    c.execute(f"SELECT * FROM counsellorappointments")
     conn.commit()
     docsandapps = c.fetchall()
     l = len(docsandapps)
     return docsandapps,l
 
 def getpatdetails(phn):
-    c.execute(f"SELECT * FROM patients")
+    c.execute(f"SELECT * FROM students")
     conn.commit()
-    patients = c.fetchall()
-    for i in patients:
+    students = c.fetchall()
+    for i in students:
         if str(i[3])==str(phn):
             return i
 
 def getdocdetails(docid):
-    c.execute(f"SELECT * FROM doctors")
+    c.execute(f"SELECT * FROM counsellors")
     conn.commit()
-    doctors = c.fetchall()
-    for i in doctors:
+    counsellors = c.fetchall()
+    for i in counsellors:
         if str(i[5])==str(docid):
             return i
 
 
 def retdocsandapps(docid):
-    c.execute(f"SELECT * FROM doctorappointments")
+    c.execute(f"SELECT * FROM counsellorappointments")
     conn.commit()
     docsandapps = c.fetchall()
     docsandapps2 = []
@@ -133,7 +133,7 @@ def retdocsandapps(docid):
     return docsandapps2,l
 
 def retapprequests(docid):
-    c.execute(f"SELECT * FROM doctorappointmentrequests")
+    c.execute(f"SELECT * FROM counsellorappointmentrequests")
     conn.commit()
     appreq = c.fetchall()
     appreq2 = []
@@ -143,66 +143,66 @@ def retapprequests(docid):
     l = len(appreq2)
     return appreq,l
 
-def ret_patient_reg_requests():
-    c.execute('SELECT * FROM patients')
+def ret_student_reg_requests():
+    c.execute('SELECT * FROM students')
     conn.commit()
     data = c.fetchall()
-    patient_reg_requests = []
+    student_reg_requests = []
     for d in data:
         if str(d[-1])=='0':
-            patient_reg_requests.append(d)
-    return patient_reg_requests
+            student_reg_requests.append(d)
+    return student_reg_requests
 
-def ret_doctor_reg_requests():
-    c.execute('SELECT * FROM doctors')
+def ret_counsellor_reg_requests():
+    c.execute('SELECT * FROM counsellors')
     conn.commit()
     data = c.fetchall()
-    doctor_reg_requests = []
+    counsellor_reg_requests = []
     for d in data:
         if str(d[-1])=='0':
-            doctor_reg_requests.append(d)
-    return doctor_reg_requests
+            counsellor_reg_requests.append(d)
+    return counsellor_reg_requests
 
-def ret_registered_patients():
-    c.execute('SELECT * FROM patients')
+def ret_registered_students():
+    c.execute('SELECT * FROM students')
     conn.commit()
     data = c.fetchall()
-    registered_patients = []
+    registered_students = []
     for d in data:
         if str(d[-1])=='1':
-            registered_patients.append(d)
-    return registered_patients
+            registered_students.append(d)
+    return registered_students
 
-def ret_registered_doctors():
-    c.execute('SELECT * FROM doctors')
+def ret_registered_counsellors():
+    c.execute('SELECT * FROM counsellors')
     conn.commit()
     data = c.fetchall()
-    registered_doctors = []
+    registered_counsellors = []
     for d in data:
         if str(d[-1])=='1':
-            registered_doctors.append(d)
-    return registered_doctors
+            registered_counsellors.append(d)
+    return registered_counsellors
 
 def ret_docname_docspec():
-    c.execute('SELECT * FROM doctors')
+    c.execute('SELECT * FROM counsellors')
     conn.commit()
-    registered_doctors = c.fetchall()
+    registered_counsellors = c.fetchall()
     docname_docid = []
-    for i in registered_doctors:
+    for i in registered_counsellors:
         docname_docid.append(str(i[0])+' '+str(i[1])+'-'+str(i[5])+'-'+str(i[7]))
     l = len(docname_docid)
     return docname_docid,l
 
 def getdocname(docid):
-    c.execute('SELECT * FROM doctors')
+    c.execute('SELECT * FROM counsellors')
     conn.commit()
-    registered_doctors = c.fetchall()
-    for i in registered_doctors:
+    registered_counsellors = c.fetchall()
+    for i in registered_counsellors:
         if str(i[5])==str(docid):
             return i[0]+'-'+i[1]
 
 def getpatname(patnum):
-    c.execute('SELECT * FROM patients')
+    c.execute('SELECT * FROM students')
     conn.commit()
     details = c.fetchall()
     for i in details:
@@ -212,21 +212,21 @@ def getpatname(patnum):
         return -1
 
 def get_all_docids():
-    c.execute('SELECT * FROM doctors')
+    c.execute('SELECT * FROM counsellors')
     conn.commit()
-    registered_doctors = c.fetchall()
+    registered_counsellors = c.fetchall()
     docids = []
-    for i in registered_doctors:
+    for i in registered_counsellors:
         docids.append(str(i[5]))
     return docids
 
 
 def get_all_patnums():
-    c.execute('SELECT * FROM patients')
+    c.execute('SELECT * FROM students')
     conn.commit()
-    registered_patients = c.fetchall()
+    registered_students = c.fetchall()
     patnums = []
-    for i in registered_patients:
+    for i in registered_students:
         patnums.append(str(i[3]))
     return patnums
 
@@ -263,8 +263,8 @@ def loginpage3():
 
 
 
-@app.route('/addpatient',methods=['POST'])
-def addpatient():
+@app.route('/addstudent',methods=['POST'])
+def addstudent():
     passw = request.form['password']
     firstname = request.form['firstname']
     lastname = request.form['lastname']
@@ -274,23 +274,23 @@ def addpatient():
     print(firstname,lastname,checkonlyalpha(firstname),checkonlyalpha(lastname))
 
     if (not checkonlyalpha(firstname)) | (not checkonlyalpha(lastname)):
-        return render_template('home.html',mess=f'First Name and Last Name can only contain alphabets.')
+        return render_template('studentregistration.html',mess=f'First Name and Last Name can only contain alphabets.')
 
     if not checkpass(passw):
-        return render_template('home.html',mess=f"Password should be of length 8 and should contain alphabets, numbers and special characters ('@','$','!').") 
+        return render_template('studentregistration.html',mess=f"Password should be of length 8 and should contain alphabets, numbers and special characters ('@','$','!').") 
 
     if not checkphnlen(phn):
-        return render_template('home.html',mess=f"Phone number should be of length 10.") 
+        return render_template('studentregistration.html',mess=f"Phone number should be of length 10.") 
 
     if str(phn) in get_all_patnums():
-        return render_template('home.html',mess=f'Patient with mobile number {phn} already exists.') 
-    c.execute(f"INSERT INTO patients VALUES ('{firstname}','{lastname}','{dob}','{phn}','{passw}','{address}',0)")
+        return render_template('studentregistration.html',mess=f'student with mobile number {phn} already exists.') 
+    c.execute(f"INSERT INTO students VALUES ('{firstname}','{lastname}','{dob}','{phn}','{passw}','{address}',0)")
     conn.commit()
-    return render_template('home.html',mess=f'Registration Request sent to Super Admin for Patient {firstname}.')
+    return render_template('home.html',mess=f'Registration Request sent to Super Admin for student {firstname}.')
 
 
-@app.route('/adddoctor',methods=['GET','POST'])
-def adddoctor():
+@app.route('/addcounsellor',methods=['GET','POST'])
+def addcounsellor():
     passw = request.form['password']
     firstname = request.form['firstname']
     lastname = request.form['lastname']
@@ -301,22 +301,22 @@ def adddoctor():
     spec = request.form['speciality']
     
     if not checkonlyalpha(firstname) and not checkonlyalpha(lastname):
-        return render_template('home.html',mess=f'First Name and Last Name can only contain alphabets.')
+        return render_template('counselorregistration.html',mess=f'First Name and Last Name can only contain alphabets.')
 
     if not checkonlyalpha(spec):
-        return render_template('home.html',mess=f'Doctor Speciality can only contain alphabets.')
+        return render_template('counselorregistration.html',mess=f'counsellor Speciality can only contain alphabets.')
 
     if not checkpass(passw):
-        return render_template('home.html',mess=f"Password should be of length 8 and should contain alphabets, numbers and special characters ('@','$','!').") 
+        return render_template('counselorregistration.html',mess=f"Password should be of length 8 and should contain alphabets, numbers and special characters ('@','$','!').") 
     
     if not checkphnlen(phn):
-        return render_template('home.html',mess=f"Phone number should be of length 10.") 
+        return render_template('counselorregistration.html',mess=f"Phone number should be of length 10.") 
 
     if str(docid) in get_all_docids():
-        return render_template('home.html',mess=f'Doctor with Doc ID {docid} already exists.') 
-    c.execute(f"INSERT INTO doctors VALUES ('{firstname}','{lastname}','{dob}','{phn}','{address}','{docid}','{passw}','{spec}',0)")
+        return render_template('counselorregistration.html',mess=f'counsellor with Counsellor ID {docid} already exists.') 
+    c.execute(f"INSERT INTO counsellors VALUES ('{firstname}','{lastname}','{dob}','{phn}','{address}','{docid}','{passw}','{spec}',0)")
     conn.commit()
-    return render_template('home.html',mess=f'Registration Request sent to Super Admin for Doctor {firstname}.') 
+    return render_template('home.html',mess=f'Registration Request sent to Super Admin for counsellor {firstname}.') 
 
 
 
@@ -324,10 +324,10 @@ def adddoctor():
 def studentpage():
     phn = request.form['phn']
     passw = request.form['pass']
-    c.execute('SELECT * FROM patients')
+    c.execute('SELECT * FROM students')
     conn.commit()
-    registerd_patients = c.fetchall()
-    for i in registerd_patients:
+    registerd_students = c.fetchall()
+    for i in registerd_students:
         if str(i[3])==str(phn) and str(i[4])==str(passw):
             docsandapps,l = retalldocsandapps()
             docname_docid,l2 = ret_docname_docspec()
@@ -344,15 +344,15 @@ def studentpage():
 def counselorpage():
     docid = request.form['docid']
     passw = request.form['pass']
-    c.execute('SELECT * FROM doctors')
+    c.execute('SELECT * FROM counsellors')
     conn.commit()
-    registerd_doctors = c.fetchall()
+    registerd_counsellors = c.fetchall()
 
-    for i in registerd_doctors:
+    for i in registerd_counsellors:
         if str(i[5])==str(docid) and str(i[6])==str(passw):
-            appointment_requests_for_this_doctor,l1 = retapprequests(docid)
-            fix_appointment_for_this_doctor,l2 = retdocsandapps(docid)
-            return render_template('counselorpage.html',appointment_requests_for_this_doctor=appointment_requests_for_this_doctor,fix_appointment_for_this_doctor=fix_appointment_for_this_doctor,l1=l1,l2=l2,docname=i[0],docid=docid)
+            appointment_requests_for_this_counsellor,l1 = retapprequests(docid)
+            fix_appointment_for_this_counsellor,l2 = retdocsandapps(docid)
+            return render_template('counselorpage.html',appointment_requests_for_this_counsellor=appointment_requests_for_this_counsellor,fix_appointment_for_this_counsellor=fix_appointment_for_this_counsellor,l1=l1,l2=l2,docname=i[0],docid=docid)
 
     else:
         return render_template('counsellorlogin.html',err='Please enter correct credentials...')
@@ -368,64 +368,64 @@ def adminpage():
 
     for i in superusercreds:
         if str(i[0])==str(username) and str(i[1])==str(passw):
-            patient_reg_requests = ret_patient_reg_requests()
-            doctor_reg_requests = ret_doctor_reg_requests()
-            registered_patients = ret_registered_patients()
-            registered_doctors = ret_registered_doctors()
-            l1 = len(patient_reg_requests)
-            l2 = len(doctor_reg_requests)
-            l3 = len(registered_patients)
-            l4 = len(registered_doctors)
-            return render_template('adminpage.html',patient_reg_requests=patient_reg_requests,doctor_reg_requests=doctor_reg_requests,registered_patients=registered_patients,registered_doctors=registered_doctors,l1=l1,l2=l2,l3=l3,l4=l4)
+            student_reg_requests = ret_student_reg_requests()
+            counsellor_reg_requests = ret_counsellor_reg_requests()
+            registered_students = ret_registered_students()
+            registered_counsellors = ret_registered_counsellors()
+            l1 = len(student_reg_requests)
+            l2 = len(counsellor_reg_requests)
+            l3 = len(registered_students)
+            l4 = len(registered_counsellors)
+            return render_template('adminpage.html',student_reg_requests=student_reg_requests,counsellor_reg_requests=counsellor_reg_requests,registered_students=registered_students,registered_counsellors=registered_counsellors,l1=l1,l2=l2,l3=l3,l4=l4)
     else:
         return render_template('adminlogin.html',err='Please enter correct credentials...')
     
 
-@app.route('/deletepatient',methods=['GET','POST'])
-def deletepatient():
+@app.route('/deletestudent',methods=['GET','POST'])
+def deletestudent():
     patnum = request.values['patnum']
-    c.execute(f"DELETE FROM patients WHERE phone_number='{str(patnum)}' ")
+    c.execute(f"DELETE FROM students WHERE phone_number='{str(patnum)}' ")
     conn.commit()
-    patient_reg_requests = ret_patient_reg_requests()
-    doctor_reg_requests = ret_doctor_reg_requests()
-    registered_patients = ret_registered_patients()
-    registered_doctors = ret_registered_doctors()
-    l1 = len(patient_reg_requests)
-    l2 = len(doctor_reg_requests)
-    l3 = len(registered_patients)
-    l4 = len(registered_doctors)
-    return render_template('adminpage.html',patient_reg_requests=patient_reg_requests,doctor_reg_requests=doctor_reg_requests,registered_patients=registered_patients,registered_doctors=registered_doctors,l1=l1,l2=l2,l3=l3,l4=l4)
+    student_reg_requests = ret_student_reg_requests()
+    counsellor_reg_requests = ret_counsellor_reg_requests()
+    registered_students = ret_registered_students()
+    registered_counsellors = ret_registered_counsellors()
+    l1 = len(student_reg_requests)
+    l2 = len(counsellor_reg_requests)
+    l3 = len(registered_students)
+    l4 = len(registered_counsellors)
+    return render_template('adminpage.html',student_reg_requests=student_reg_requests,counsellor_reg_requests=counsellor_reg_requests,registered_students=registered_students,registered_counsellors=registered_counsellors,l1=l1,l2=l2,l3=l3,l4=l4)
     
 
-@app.route('/deletedoctor',methods=['GET','POST'])
-def deletedoctor():
+@app.route('/deletecounsellor',methods=['GET','POST'])
+def deletecounsellor():
     docid = request.values['docid']
-    c.execute(f"DELETE FROM doctors WHERE doc_id='{str(docid)}' ")
+    c.execute(f"DELETE FROM counsellors WHERE doc_id='{str(docid)}' ")
     conn.commit()
-    patient_reg_requests = ret_patient_reg_requests()
-    doctor_reg_requests = ret_doctor_reg_requests()
-    registered_patients = ret_registered_patients()
-    registered_doctors = ret_registered_doctors()
-    l1 = len(patient_reg_requests)
-    l2 = len(doctor_reg_requests)
-    l3 = len(registered_patients)
-    l4 = len(registered_doctors)
-    return render_template('adminpage.html',patient_reg_requests=patient_reg_requests,doctor_reg_requests=doctor_reg_requests,registered_patients=registered_patients,registered_doctors=registered_doctors,l1=l1,l2=l2,l3=l3,l4=l4)
+    student_reg_requests = ret_student_reg_requests()
+    counsellor_reg_requests = ret_counsellor_reg_requests()
+    registered_students = ret_registered_students()
+    registered_counsellors = ret_registered_counsellors()
+    l1 = len(student_reg_requests)
+    l2 = len(counsellor_reg_requests)
+    l3 = len(registered_students)
+    l4 = len(registered_counsellors)
+    return render_template('adminpage.html',student_reg_requests=student_reg_requests,counsellor_reg_requests=counsellor_reg_requests,registered_students=registered_students,registered_counsellors=registered_counsellors,l1=l1,l2=l2,l3=l3,l4=l4)
    
 
 @app.route('/makeappointment',methods=['GET','POST'])
 def makeappointment():
     patnum = request.args['phn']
     appdate = request.form['appdate']
-    whichdoctor = request.form['whichdoctor']
-    docname = whichdoctor.split('-')[0]
-    docid = whichdoctor.split('-')[1]
+    whichcounsellor = request.form['whichcounsellor']
+    docname = whichcounsellor.split('-')[0]
+    docid = whichcounsellor.split('-')[1]
     patname = getpatname(patnum)
     appdate2 = datetime.strptime(appdate, '%Y-%m-%d').strftime("%Y-%m-%d")
     print(appdate2,datetoday())
     if appdate2>datetoday():
         if patname!=-1:
-            c.execute(f"INSERT INTO doctorappointmentrequests VALUES ('{docid}','{patname}','{patnum}','{appdate}')")
+            c.execute(f"INSERT INTO counsellorappointmentrequests VALUES ('{docid}','{patname}','{patnum}','{appdate}')")
             conn.commit()
             docsandapps,l = retalldocsandapps()
             docname_docid,l2 = ret_docname_docspec()
@@ -449,122 +449,122 @@ def makeappointment():
         return render_template('studentlogin.html',mess=f'Please select a date after today.',docnames=docnames,docsandapps=docsandapps,docname_docid=docname_docid,l=l,l2=l2,patname=patname) 
 
 
-@app.route('/approvedoctor')
-def approvedoctor():
+@app.route('/approvecounsellor')
+def approvecounsellor():
     doctoapprove = request.values['docid']
-    c.execute('SELECT * FROM doctors')
+    c.execute('SELECT * FROM counsellors')
     conn.commit()
-    doctor_requests = c.fetchall()
-    for i in doctor_requests:
+    counsellor_requests = c.fetchall()
+    for i in counsellor_requests:
         if str(i[5])==str(doctoapprove):
-            c.execute(f"UPDATE doctors SET status=1 WHERE doc_id={str(doctoapprove)}")
+            c.execute(f"UPDATE counsellors SET status=1 WHERE doc_id={str(doctoapprove)}")
             conn.commit()
-            patient_reg_requests = ret_patient_reg_requests()
-            doctor_reg_requests = ret_doctor_reg_requests()
-            registered_patients = ret_registered_patients()
-            registered_doctors = ret_registered_doctors()
-            l1 = len(patient_reg_requests)
-            l2 = len(doctor_reg_requests)
-            l3 = len(registered_patients)
-            l4 = len(registered_doctors)
-            return render_template('adminpage.html',mess=f'Doctor Approved successfully!!!',patient_reg_requests=patient_reg_requests,doctor_reg_requests=doctor_reg_requests,registered_patients=registered_patients,registered_doctors=registered_doctors,l1=l1,l2=l2,l3=l3,l4=l4) 
+            student_reg_requests = ret_student_reg_requests()
+            counsellor_reg_requests = ret_counsellor_reg_requests()
+            registered_students = ret_registered_students()
+            registered_counsellors = ret_registered_counsellors()
+            l1 = len(student_reg_requests)
+            l2 = len(counsellor_reg_requests)
+            l3 = len(registered_students)
+            l4 = len(registered_counsellors)
+            return render_template('adminpage.html',mess=f'counsellor Approved successfully!!!',student_reg_requests=student_reg_requests,counsellor_reg_requests=counsellor_reg_requests,registered_students=registered_students,registered_counsellors=registered_counsellors,l1=l1,l2=l2,l3=l3,l4=l4) 
     else:
-        patient_reg_requests = ret_patient_reg_requests()
-        doctor_reg_requests = ret_doctor_reg_requests()
-        registered_patients = ret_registered_patients()
-        registered_doctors = ret_registered_doctors()
-        l1 = len(patient_reg_requests)
-        l2 = len(doctor_reg_requests)
-        l3 = len(registered_patients)
-        l4 = len(registered_doctors)
-        return render_template('adminpage.html',mess=f'Doctor Not Approved...',patient_reg_requests=patient_reg_requests,doctor_reg_requests=doctor_reg_requests,registered_patients=registered_patients,registered_doctors=registered_doctors,l1=l1,l2=l2,l3=l3,l4=l4) 
+        student_reg_requests = ret_student_reg_requests()
+        counsellor_reg_requests = ret_counsellor_reg_requests()
+        registered_students = ret_registered_students()
+        registered_counsellors = ret_registered_counsellors()
+        l1 = len(student_reg_requests)
+        l2 = len(counsellor_reg_requests)
+        l3 = len(registered_students)
+        l4 = len(registered_counsellors)
+        return render_template('adminpage.html',mess=f'counsellor Not Approved...',student_reg_requests=student_reg_requests,counsellor_reg_requests=counsellor_reg_requests,registered_students=registered_students,registered_counsellors=registered_counsellors,l1=l1,l2=l2,l3=l3,l4=l4) 
 
 
-@app.route('/approvepatient')
-def approvepatient():
+@app.route('/approvestudent')
+def approvestudent():
     pattoapprove = request.values['patnum']
-    c.execute('SELECT * FROM patients')
+    c.execute('SELECT * FROM students')
     conn.commit()
-    patient_requests = c.fetchall()
-    for i in patient_requests:
+    student_requests = c.fetchall()
+    for i in student_requests:
         if str(i[3])==str(pattoapprove):
-            c.execute(f"UPDATE patients SET status=1 WHERE phone_number={str(pattoapprove)}")
+            c.execute(f"UPDATE students SET status=1 WHERE phone_number={str(pattoapprove)}")
             conn.commit()
-            patient_reg_requests = ret_patient_reg_requests()
-            doctor_reg_requests = ret_doctor_reg_requests()
-            registered_patients = ret_registered_patients()
-            registered_doctors = ret_registered_doctors()
-            l1 = len(patient_reg_requests)
-            l2 = len(doctor_reg_requests)
-            l3 = len(registered_patients)
-            l4 = len(registered_doctors)
-            return render_template('adminpage.html',mess=f'Patient Approved successfully!!!',patient_reg_requests=patient_reg_requests,doctor_reg_requests=doctor_reg_requests,registered_patients=registered_patients,registered_doctors=registered_doctors,l1=l1,l2=l2,l3=l3,l4=l4) 
+            student_reg_requests = ret_student_reg_requests()
+            counsellor_reg_requests = ret_counsellor_reg_requests()
+            registered_students = ret_registered_students()
+            registered_counsellors = ret_registered_counsellors()
+            l1 = len(student_reg_requests)
+            l2 = len(counsellor_reg_requests)
+            l3 = len(registered_students)
+            l4 = len(registered_counsellors)
+            return render_template('adminpage.html',mess=f'student Approved successfully!!!',student_reg_requests=student_reg_requests,counsellor_reg_requests=counsellor_reg_requests,registered_students=registered_students,registered_counsellors=registered_counsellors,l1=l1,l2=l2,l3=l3,l4=l4) 
 
     else:
-        patient_reg_requests = ret_patient_reg_requests()
-        doctor_reg_requests = ret_doctor_reg_requests()
-        registered_patients = ret_registered_patients()
-        registered_doctors = ret_registered_doctors()
-        l1 = len(patient_reg_requests)
-        l2 = len(doctor_reg_requests)
-        l3 = len(registered_patients)
-        l4 = len(registered_doctors)
-        return render_template('adminpage.html',mess=f'Patient Not Approved...',patient_reg_requests=patient_reg_requests,doctor_reg_requests=doctor_reg_requests,registered_patients=registered_patients,registered_doctors=registered_doctors,l1=l1,l2=l2,l3=l3,l4=l4) 
+        student_reg_requests = ret_student_reg_requests()
+        counsellor_reg_requests = ret_counsellor_reg_requests()
+        registered_students = ret_registered_students()
+        registered_counsellors = ret_registered_counsellors()
+        l1 = len(student_reg_requests)
+        l2 = len(counsellor_reg_requests)
+        l3 = len(registered_students)
+        l4 = len(registered_counsellors)
+        return render_template('adminpage.html',mess=f'student Not Approved...',student_reg_requests=student_reg_requests,counsellor_reg_requests=counsellor_reg_requests,registered_students=registered_students,registered_counsellors=registered_counsellors,l1=l1,l2=l2,l3=l3,l4=l4) 
 
 
-@app.route('/doctorapproveappointment')
-def doctorapproveappointment():
+@app.route('/counsellorapproveappointment')
+def counsellorapproveappointment():
     docid = request.values['docid']
     patnum = request.values['patnum']
     patname = request.values['patname']
     appdate = request.values['appdate']
-    c.execute(f"INSERT INTO doctorappointments VALUES ('{docid}','{patname}','{patnum}','{appdate}')")
+    c.execute(f"INSERT INTO counsellorappointments VALUES ('{docid}','{patname}','{patnum}','{appdate}')")
     conn.commit()
-    c.execute(f"DELETE FROM doctorappointmentrequests WHERE patientnum='{str(patnum)}'")
+    c.execute(f"DELETE FROM counsellorappointmentrequests WHERE studentnum='{str(patnum)}'")
     conn.commit()
-    appointment_requests_for_this_doctor,l1 = retapprequests(docid)
-    fix_appointment_for_this_doctor,l2 = retdocsandapps(docid)
-    return render_template('counselorpage.html',appointment_requests_for_this_doctor=appointment_requests_for_this_doctor,fix_appointment_for_this_doctor=fix_appointment_for_this_doctor,l1=l1,l2=l2,docid=docid)
+    appointment_requests_for_this_counsellor,l1 = retapprequests(docid)
+    fix_appointment_for_this_counsellor,l2 = retdocsandapps(docid)
+    return render_template('counselorpage.html',appointment_requests_for_this_counsellor=appointment_requests_for_this_counsellor,fix_appointment_for_this_counsellor=fix_appointment_for_this_counsellor,l1=l1,l2=l2,docid=docid)
 
-@app.route('/doctordeleteappointment')
-def doctordeleteappointment():
+@app.route('/counsellordeleteappointment')
+def counsellordeleteappointment():
     docid = request.values['docid']
     patnum = request.values['patnum']
-    c.execute(f"DELETE FROM doctorappointmentrequests WHERE patientnum='{str(patnum)}'")
+    c.execute(f"DELETE FROM counsellorappointmentrequests WHERE studentnum='{str(patnum)}'")
     conn.commit()
-    appointment_requests_for_this_doctor,l1 = retapprequests(docid)
-    fix_appointment_for_this_doctor,l2 = retdocsandapps(docid)
-    return render_template('counselorpage.html',appointment_requests_for_this_doctor=appointment_requests_for_this_doctor,fix_appointment_for_this_doctor=fix_appointment_for_this_doctor,l1=l1,l2=l2,docid=docid)
+    appointment_requests_for_this_counsellor,l1 = retapprequests(docid)
+    fix_appointment_for_this_counsellor,l2 = retdocsandapps(docid)
+    return render_template('counselorpage.html',appointment_requests_for_this_counsellor=appointment_requests_for_this_counsellor,fix_appointment_for_this_counsellor=fix_appointment_for_this_counsellor,l1=l1,l2=l2,docid=docid)
 
-@app.route('/deletedoctorrequest')
-def deletedoctorrequest():
+@app.route('/deletecounsellorrequest')
+def deletecounsellorrequest():
     docid = request.values['docid']
-    c.execute(f"DELETE FROM doctors WHERE doc_id='{str(docid)}'")
+    c.execute(f"DELETE FROM counsellors WHERE doc_id='{str(docid)}'")
     conn.commit()
-    patient_reg_requests = ret_patient_reg_requests()
-    doctor_reg_requests = ret_doctor_reg_requests()
-    registered_patients = ret_registered_patients()
-    registered_doctors = ret_registered_doctors()
-    l1 = len(patient_reg_requests)
-    l2 = len(doctor_reg_requests)
-    l3 = len(registered_patients)
-    l4 = len(registered_doctors)
-    return render_template('adminpage.html',patient_reg_requests=patient_reg_requests,doctor_reg_requests=doctor_reg_requests,registered_patients=registered_patients,registered_doctors=registered_doctors,l1=l1,l2=l2,l3=l3,l4=l4) 
+    student_reg_requests = ret_student_reg_requests()
+    counsellor_reg_requests = ret_counsellor_reg_requests()
+    registered_students = ret_registered_students()
+    registered_counsellors = ret_registered_counsellors()
+    l1 = len(student_reg_requests)
+    l2 = len(counsellor_reg_requests)
+    l3 = len(registered_students)
+    l4 = len(registered_counsellors)
+    return render_template('adminpage.html',student_reg_requests=student_reg_requests,counsellor_reg_requests=counsellor_reg_requests,registered_students=registered_students,registered_counsellors=registered_counsellors,l1=l1,l2=l2,l3=l3,l4=l4) 
 
-@app.route('/deletepatientrequest')
-def deletepatientrequest():
+@app.route('/deletestudentrequest')
+def deletestudentrequest():
     patnum = request.values['patnum']
-    c.execute(f"DELETE FROM patients WHERE phone_number='{str(patnum)}'")
+    c.execute(f"DELETE FROM students WHERE phone_number='{str(patnum)}'")
     conn.commit()
-    patient_reg_requests = ret_patient_reg_requests()
-    doctor_reg_requests = ret_doctor_reg_requests()
-    registered_patients = ret_registered_patients()
-    registered_doctors = ret_registered_doctors()
-    l1 = len(patient_reg_requests)
-    l2 = len(doctor_reg_requests)
-    l3 = len(registered_patients)
-    l4 = len(registered_doctors)
-    return render_template('adminpage.html',patient_reg_requests=patient_reg_requests,doctor_reg_requests=doctor_reg_requests,registered_patients=registered_patients,registered_doctors=registered_doctors,l1=l1,l2=l2,l3=l3,l4=l4) 
+    student_reg_requests = ret_student_reg_requests()
+    counsellor_reg_requests = ret_counsellor_reg_requests()
+    registered_students = ret_registered_students()
+    registered_counsellors = ret_registered_counsellors()
+    l1 = len(student_reg_requests)
+    l2 = len(counsellor_reg_requests)
+    l3 = len(registered_students)
+    l4 = len(registered_counsellors)
+    return render_template('adminpage.html',student_reg_requests=student_reg_requests,counsellor_reg_requests=counsellor_reg_requests,registered_students=registered_students,registered_counsellors=registered_counsellors,l1=l1,l2=l2,l3=l3,l4=l4) 
 
 
 @app.route('/updatestudent')
@@ -580,8 +580,8 @@ def updatecounselor():
     fn,ln,dob,phn,add,docid,passw,spec,status = getdocdetails(docid)
     return render_template('updatecounselor.html',fn=fn,ln=ln,dob=dob,phn=phn,passw=passw,add=add,status=status,spec=spec,docid=docid) 
 
-@app.route('/makedoctorupdates',methods=['GET','POST'])
-def makedoctorupdates():
+@app.route('/makecounsellorupdates',methods=['GET','POST'])
+def makecounsellorupdates():
     firstname = request.form['firstname']
     lastname = request.form['lastname']
     dob = request.form['dob']
@@ -589,35 +589,35 @@ def makedoctorupdates():
     address = request.form['address']
     docid = request.args['docid']
     spec = request.form['speciality']
-    c.execute("UPDATE doctors SET first_name=(?) WHERE doc_id=(?)",(firstname,docid))
+    c.execute("UPDATE counsellors SET first_name=(?) WHERE doc_id=(?)",(firstname,docid))
     conn.commit()
-    c.execute("UPDATE doctors SET last_name=(?) WHERE doc_id=(?)",(lastname,docid))
+    c.execute("UPDATE counsellors SET last_name=(?) WHERE doc_id=(?)",(lastname,docid))
     conn.commit()
-    c.execute("UPDATE doctors SET dob=(?) WHERE doc_id=(?)",(dob,docid))
+    c.execute("UPDATE counsellors SET dob=(?) WHERE doc_id=(?)",(dob,docid))
     conn.commit()
-    c.execute("UPDATE doctors SET phone_number=(?) WHERE doc_id=(?)",(phn,docid))
+    c.execute("UPDATE counsellors SET phone_number=(?) WHERE doc_id=(?)",(phn,docid))
     conn.commit()
-    c.execute("UPDATE doctors SET address=(?) WHERE doc_id=(?)",(address,docid))
+    c.execute("UPDATE counsellors SET address=(?) WHERE doc_id=(?)",(address,docid))
     conn.commit()
-    c.execute("UPDATE doctors SET speciality=(?) WHERE doc_id=(?)",(spec,docid))
+    c.execute("UPDATE counsellors SET speciality=(?) WHERE doc_id=(?)",(spec,docid))
     conn.commit()
     return render_template('home.html',mess='Updations Done Successfully!!!') 
 
     
-@app.route('/makepatientupdates',methods=['GET','POST'])
-def makepatientupdates():
+@app.route('/makestudentupdates',methods=['GET','POST'])
+def makestudentupdates():
     firstname = request.form['firstname']
     lastname = request.form['lastname']
     dob = request.form['dob']
     phn = request.args['phn']
     address = request.form['address']
-    c.execute("UPDATE patients SET first_name=(?) WHERE phone_number=(?)",(firstname,phn))
+    c.execute("UPDATE students SET first_name=(?) WHERE phone_number=(?)",(firstname,phn))
     conn.commit()
-    c.execute("UPDATE patients SET last_name=(?) WHERE phone_number=(?)",(lastname,phn))
+    c.execute("UPDATE students SET last_name=(?) WHERE phone_number=(?)",(lastname,phn))
     conn.commit()
-    c.execute("UPDATE patients SET dob=(?) WHERE phone_number=(?)",(dob,phn))
+    c.execute("UPDATE students SET dob=(?) WHERE phone_number=(?)",(dob,phn))
     conn.commit()
-    c.execute("UPDATE patients SET address=(?) WHERE phone_number=(?)",(address,phn))
+    c.execute("UPDATE students SET address=(?) WHERE phone_number=(?)",(address,phn))
     conn.commit()
     return render_template('home.html',mess='Updations Done Successfully!!!') 
 

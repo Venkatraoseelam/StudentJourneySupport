@@ -19,7 +19,7 @@ c = conn.cursor()
 
 def create_tables():
   
-    c.execute('''CREATE TABLE doctors (
+    c.execute('''CREATE TABLE counsellors (
         first_name text,
         last_name text,
         dob date,
@@ -32,13 +32,13 @@ def create_tables():
         )''')
     conn.commit()
    
-    c.execute('''CREATE TABLE patients (
+    c.execute('''CREATE TABLE students (
         first_name text,
         last_name text,
         dob date,
         phone_number integer,
         address text,
-        patient_id integer,
+        student_id integer,
         medical_history text,
         status integer
         )''')
@@ -50,18 +50,18 @@ def create_tables():
         )''')
     conn.commit()
 
-    c.execute('''CREATE TABLE IF NOT EXISTS doctorappointmentrequests(
+    c.execute('''CREATE TABLE IF NOT EXISTS counsellorappointmentrequests(
         docid integer,
-        patientname text,
-        patientnum integer,
+        studentname text,
+        studentnum integer,
         appointmentdate date
         )''')
     conn.commit()
 
-    c.execute('''CREATE TABLE IF NOT EXISTS doctorappointments(
+    c.execute('''CREATE TABLE IF NOT EXISTS counsellorappointments(
         docid integer,
-        patientname text,
-        patientnum integer,
+        studentname text,
+        studentnum integer,
         appointmentdate date
         )''')
     conn.commit()

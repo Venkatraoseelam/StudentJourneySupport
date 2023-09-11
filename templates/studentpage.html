@@ -141,9 +141,9 @@
                 <h2 style="font-size: 25px;color: black;float:left;margin-left: 285px;">Schedule an appointment with a Counselor</h2>
 
                 <form action='/makeappointment?phn={{phn}}' method="POST" enctype="multipart/form-data">
-                    <label for="whichdoctor" style="color:white;">Choose Counselor</label><br>
-                    <select style="font-size: 20px;width: 350px;" class="custom-select mr-sm-2" id="whichdoctor"
-                        name="whichdoctor">
+                    <label for="whichcounsellor" style="color:white;">Choose Counselor</label><br>
+                    <select style="font-size: 20px;width: 350px;" class="custom-select mr-sm-2" id="whichcounsellor"
+                        name="whichcounsellor">
                         {% for i in range(l2) %}
                         <option value="{{docname_docid[i]}}">{{docname_docid[i]}}</option>
                         {% endfor %}

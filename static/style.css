@@ -718,7 +718,7 @@ section.app_section .img-box img {
   bottom: 0;
   width: 60px;
   height: 55px;
-  background-color: #30ae69;
+  /*background-color: #30ae69;*/
   z-index: 2;
 }
 
